@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:poke_facts/presentation/images.dart';
 
@@ -12,18 +13,27 @@ class HomePage extends StatelessWidget {
           _pokemonLogo(context),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Column(children: [
+            child: Column(spacing: 24.0, children: [
+              SizedBox(height: 48),
               Text(
                 'What Pokemon\nare you looking for?',
                 style: Theme.of(context).textTheme.headlineLarge,
+                textAlign: TextAlign.center,
               ),
-              TextField(
-                decoration: InputDecoration(
-                  prefixIcon: const Icon(Icons.search),
-                  hintText: 'Search Pokemons, Moves',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
+              CupertinoTextField(
+                prefix: Padding(
+                  padding: const EdgeInsets.only(left: 8, right: 4),
+                  child: Icon(
+                    CupertinoIcons.search,
+                    color: CupertinoColors.systemGrey3,
                   ),
+                ),
+                placeholder: 'Search Pokemons, Moves',
+                padding:
+                    const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+                decoration: BoxDecoration(
+                  color: CupertinoColors.systemGrey5,
+                  borderRadius: BorderRadius.circular(16),
                 ),
               ),
               Expanded(
@@ -31,6 +41,7 @@ class HomePage extends StatelessWidget {
                   crossAxisCount: 2,
                   crossAxisSpacing: 16,
                   mainAxisSpacing: 16,
+                  childAspectRatio: 2.5,
                   children: [
                     _buildGridItem(context, 'Pokedex'),
                     _buildGridItem(context, 'Moves'),
@@ -74,10 +85,14 @@ class HomePage extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),
       ),
-      child: Center(
-        child: Text(
-          title,
-          style: Theme.of(context).textTheme.labelSmall,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Center(
+          child: Text(
+            title,
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.labelSmall,
+          ),
         ),
       ),
     );
