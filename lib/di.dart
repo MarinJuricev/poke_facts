@@ -1,5 +1,5 @@
 
-import 'home/home_module.dart';
+import 'home/di/home_module.dart';
 
 Future<void> loadDependencies() async {
   loadHomeModule();
