@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:poke_facts/navigation/navigation_declaration.dart';
 
+import 'di.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await loadDependencies();
 
   runApp(const App());
 }
