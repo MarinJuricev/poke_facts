@@ -1,15 +1,18 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:poke_facts/components/poke_text_field.dart';
 import 'package:poke_facts/home/bloc/home_bloc.dart';
 import 'package:poke_facts/home/component/home_grid.dart';
 import 'package:poke_facts/home/component/pokemon_logo.dart';
-import 'package:poke_facts/presentation/images.dart';
 
+import '../navigation/navigation_declaration.dart';
 import 'bloc/home_event.dart';
 import 'bloc/home_state.dart';
 
 class HomePage extends StatelessWidget {
+  static final String searchTag = 'searchTag';
+
   const HomePage({super.key});
 
   @override
@@ -17,27 +20,45 @@ class HomePage extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
 
     return BlocProvider(
-      create: (_) => HomeBloc()..add(HomeLoadEvent()),
-      child: Scaffold(
-        body: SafeArea(
-          child: Stack(children: [
-            PokemonLogo(),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Column(spacing: 24.0, children: [
-                SizedBox(height: screenHeight * 0.10),
-                Text(
-                  'What Pokemon\nare you looking for?',
-                  style: Theme.of(context).textTheme.headlineLarge,
-                  textAlign: TextAlign.center,
+      create: (context) => HomeBloc()..add(HomeLoadEvent()),
+      child: BlocListener<HomeBloc, HomeState>(
+        listenWhen: (previous, current) =>
+            previous.query != current.query && current.query.length > 3,
+        listener: (context, state) {
+          context.goNamed(
+            pageList,
+            queryParameters: {
+              homePageQueryParam: state.query,
+              homePageTagParam: searchTag,
+            },
+          );
+        },
+        child: Scaffold(
+          body: SafeArea(
+            child: Stack(
+              children: [
+                PokemonLogo(),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Column(
+                    spacing: 24.0,
+                    children: [
+                      SizedBox(height: screenHeight * 0.10),
+                      Text(
+                        'What Pokemon\nare you looking for?',
+                        style: Theme.of(context).textTheme.headlineLarge,
+                        textAlign: TextAlign.center,
+                      ),
+                      _buildSearchField(context),
+                      Expanded(
+                        child: HomeGrid(),
+                      ),
+                    ],
+                  ),
                 ),
-                _buildSearchField(context),
-                Expanded(
-                  child: HomeGrid(),
-                ),
-              ]),
+              ],
             ),
-          ]),
+          ),
         ),
       ),
     );
@@ -47,22 +68,14 @@ class HomePage extends StatelessWidget {
     return BlocBuilder<HomeBloc, HomeState>(
       buildWhen: (prev, curr) => prev.query != curr.query,
       builder: (context, state) {
-        return CupertinoTextField(
-          prefix: Padding(
-            padding: const EdgeInsets.only(left: 8, right: 4),
-            child: Icon(
-              CupertinoIcons.search,
-              color: CupertinoColors.systemGrey3,
-            ),
+        return Hero(
+          tag: searchTag,
+          child: PokeTextField(
+            placeholder: 'Search Pokemon\'s, Moves',
+            text: context.read<HomeBloc>().state.query,
+            onChanged: (value) =>
+                context.read<HomeBloc>().add(QueryChanged(value)),
           ),
-          placeholder: 'Search Pokemon\'s, Moves',
-          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
-          decoration: BoxDecoration(
-            color: CupertinoColors.systemGrey5,
-            borderRadius: BorderRadius.circular(16),
-          ),
-          onChanged: (value) =>
-              context.read<HomeBloc>().add(QueryChanged(value)),
         );
       },
     );

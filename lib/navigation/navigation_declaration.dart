@@ -10,10 +10,17 @@ final router = GoRouter(routes: [
       builder: (context, state) => const HomePage(),
       routes: [
         GoRoute(
-          path: 'list',
-          name: pageList,
-          builder: (context, state) => const PokeListPage(),
-        ),
+            path: 'list',
+            name: pageList,
+            builder: (context, state) {
+              final query = state.uri.queryParameters[homePageQueryParam] ?? '';
+              final tag = state.uri.queryParameters[homePageTagParam] ?? '';
+
+              return PokeListPage(
+                query: query,
+                tag: tag,
+              );
+            }),
         GoRoute(
           path: 'details',
           name: pageDetails,
@@ -25,3 +32,6 @@ final router = GoRouter(routes: [
 const pageHome = 'pageHome';
 const pageList = 'pageList';
 const pageDetails = 'pageDetails';
+
+const homePageQueryParam = 'query';
+const homePageTagParam = 'tag';
