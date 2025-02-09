@@ -45,16 +45,25 @@ class PokeListContent extends StatelessWidget {
           child: SizedBox(
             height: 40,
             child: PokeTextField(
-              text: query,
+              text: context.watch<PokeListBloc>().state.query ?? query,
               placeholder: 'Search Pokemon\'s, Moves',
-              onChanged: (value) => {
-                context.read<PokeListBloc>().add(PokeListQueryChanged(value)),
-              }
+              onChanged: (value) =>
+                  context.read<PokeListBloc>().add(PokeListQueryChanged(value)),
             ),
           ),
         ),
       ),
       body: const Center(child: Text('Pokemon List Page')),
     );
+  }
+}
+
+extension MaybeReadBloc<T extends BlocBase<Object?>> on BuildContext {
+  T? maybeRead() {
+    try {
+      return BlocProvider.of<T>(this);
+    } catch (_) {
+      return null;
+    }
   }
 }
