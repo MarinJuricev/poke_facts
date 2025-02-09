@@ -13,8 +13,12 @@ class PokemonRepositoryImpl implements PokemonRepository {
 
   @override
   TaskEither<RepositoryError, Pokemon> getPokemon(String name) {
-    return networkService
-        .getPokemon(name)
-        .map((networkPokemon) => Pokemon(name: networkPokemon.name));
+    return networkService.getPokemon(name).map(
+          (networkPokemon) => Pokemon(
+            name: networkPokemon.name,
+            height: networkPokemon.height,
+            weight: networkPokemon.weight,
+          ),
+        );
   }
 }

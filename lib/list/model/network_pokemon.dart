@@ -5,8 +5,14 @@ part 'network_pokemon.g.dart';
 @JsonSerializable()
 class NetworkPokemon {
   final String name;
+  final int height;
+  final int weight;
 
-  NetworkPokemon({required this.name});
+  NetworkPokemon({
+    required this.name,
+    required this.height,
+    required this.weight,
+  });
 
   factory NetworkPokemon.fromJson(Map<String, dynamic> json) =>
       _$NetworkPokemonFromJson(json);
@@ -14,5 +20,6 @@ class NetworkPokemon {
   Map<String, dynamic> toJson() => _$NetworkPokemonToJson(this);
 
   @override
-  String toString() => 'NetworkPokemon(name: $name)';
+  String toString() =>
+      'NetworkPokemon(name: $name, height: $height, weight: $weight)';
 }

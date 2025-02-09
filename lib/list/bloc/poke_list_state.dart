@@ -15,6 +15,8 @@ class PokeListState with _$PokeListState {
 class PokeListItem with _$PokeListItem {
   const factory PokeListItem({
     required String text,
+    required int height,
+    required int weight,
     required Color color,
   }) = _PokeListItem;
 }
