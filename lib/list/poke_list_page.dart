@@ -49,7 +49,6 @@ class PokeListContent extends StatelessWidget {
               placeholder: 'Search Pokemon\'s, Moves',
               onChanged: (value) => {
                 context.read<PokeListBloc>().add(PokeListQueryChanged(value)),
-                context.read<HomeBloc>().add(HomeQueryChanged(value)),
               }
             ),
           ),
