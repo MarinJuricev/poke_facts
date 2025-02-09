@@ -11,18 +11,18 @@ class DioNetworkService implements NetworkService {
 
   @override
   TaskEither<RepositoryError, NetworkPokemon> getPokemon(String name) {
-    return TaskEither<RepositoryError, NetworkPokemon>(() async {
-      try {
-        // TODO: Introduce a network/error mapper
+    //TODO Introduce a network mapper, this could get repeated N times
+    return TaskEither.tryCatch(
+      () async {
         final response = await dio.get<NetworkPokemon>('pokemon/$name');
         if (response.statusCode == 200 && response.data != null) {
-          return right(response.data!);
+          return response.data!;
         } else {
-          return left(CodeFailure(statusCode: response.statusCode ?? 0));
+          throw CodeFailure(statusCode: response.statusCode ?? 0);
         }
-      } catch (e) {
-        return left(const UnknownRepositoryError());
-      }
-    });
+      },
+      (error, _) =>
+          error is RepositoryError ? error : const UnknownRepositoryError(),
+    );
   }
 }

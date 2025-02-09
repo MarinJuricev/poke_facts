@@ -14,7 +14,7 @@ void loadNetworkModule() {
     ),
   );
 
-  getIt.registerLazySingleton<NetworkService>(
+  getIt.registerFactory<NetworkService>(
     () => DioNetworkService(
       dio: getIt<Dio>(),
     ),
