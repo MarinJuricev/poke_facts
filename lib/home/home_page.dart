@@ -9,6 +9,7 @@ import 'package:poke_facts/home/component/pokemon_logo.dart';
 import '../navigation/navigation_declaration.dart';
 import 'bloc/home_event.dart';
 import 'bloc/home_state.dart';
+import 'di/home_module.dart';
 
 class HomePage extends StatelessWidget {
   static final String searchTag = 'searchTag';
@@ -20,7 +21,7 @@ class HomePage extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
 
     return BlocProvider(
-      create: (context) => HomeBloc()..add(HomeLoadEvent()),
+      create: (context) => getIt<HomeBloc>()..add(HomeLoadEvent()),
       child: BlocListener<HomeBloc, HomeState>(
         listenWhen: (previous, current) =>
             previous.query != current.query && current.query.length > 3,

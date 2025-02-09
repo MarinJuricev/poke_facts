@@ -23,7 +23,7 @@ class PokeListPage extends StatelessWidget {
           ),
         ),
       ),
-      body: Center(child: Text("Pokemon List Page")),
+      body: Center(child: Text('Pokemon List Page')),
     );
   }
 }
