@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:poke_facts/components/poke_text_field.dart';
+import 'package:poke_facts/di.dart';
 import 'package:poke_facts/home/bloc/home_bloc.dart';
 import 'package:poke_facts/home/component/home_grid.dart';
 import 'package:poke_facts/home/component/pokemon_logo.dart';
@@ -9,7 +10,6 @@ import 'package:poke_facts/home/component/pokemon_logo.dart';
 import '../navigation/navigation_declaration.dart';
 import 'bloc/home_event.dart';
 import 'bloc/home_state.dart';
-import 'di/home_module.dart';
 
 class HomePage extends StatelessWidget {
   static final String searchTag = 'searchTag';
@@ -73,9 +73,9 @@ class HomePage extends StatelessWidget {
           tag: searchTag,
           child: PokeTextField(
             placeholder: 'Search Pokemon\'s, Moves',
-            text: context.read<HomeBloc>().state.query,
+            text: state.query,
             onChanged: (value) =>
-                context.read<HomeBloc>().add(QueryChanged(value)),
+                context.read<HomeBloc>().add(HomeQueryChanged(value)),
           ),
         );
       },

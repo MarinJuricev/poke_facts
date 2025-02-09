@@ -9,7 +9,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   static const _debounceDuration = Duration(milliseconds: 500);
 
   HomeBloc() : super(const HomeState()) {
-    on<QueryChanged>(
+    on<HomeQueryChanged>(
       (event, emit) {
         emit(state.copyWith(query: event.query));
       },

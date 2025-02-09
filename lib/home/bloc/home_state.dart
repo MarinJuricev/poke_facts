@@ -7,7 +7,7 @@ part 'home_state.freezed.dart';
 class HomeState with _$HomeState {
   const factory HomeState({
     @Default('') String query,
-    @Default(const []) List<HomeGridItem> gridItems,
+    @Default([]) List<HomeGridItem> gridItems,
   }) = _HomeState;
 }
 

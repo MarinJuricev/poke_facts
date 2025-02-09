@@ -26,6 +26,14 @@ class _PokeTextFieldState extends State<PokeTextField> {
   }
 
   @override
+  void didUpdateWidget(covariant PokeTextField oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.text != widget.text) {
+      _controller.text = widget.text;
+    }
+  }
+
+  @override
   void dispose() {
     _controller.dispose();
     super.dispose();

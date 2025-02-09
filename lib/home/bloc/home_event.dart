@@ -4,10 +4,10 @@ sealed class HomeEvent extends Equatable {
   const HomeEvent();
 }
 
-final class QueryChanged extends HomeEvent {
+final class HomeQueryChanged extends HomeEvent {
   final String query;
 
-  const QueryChanged(this.query);
+  const HomeQueryChanged(this.query);
 
   @override
   List<Object?> get props => [query];
