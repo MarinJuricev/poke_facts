@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poke_facts/components/poke_text_field.dart';
 import 'package:poke_facts/di.dart';
-import 'package:poke_facts/home/bloc/home_bloc.dart';
-import 'package:poke_facts/home/bloc/home_event.dart';
 import 'package:poke_facts/list/bloc/poke_list_bloc.dart';
 import 'package:poke_facts/list/bloc/poke_list_event.dart';
 
@@ -55,15 +53,5 @@ class PokeListContent extends StatelessWidget {
       ),
       body: const Center(child: Text('Pokemon List Page')),
     );
-  }
-}
-
-extension MaybeReadBloc<T extends BlocBase<Object?>> on BuildContext {
-  T? maybeRead() {
-    try {
-      return BlocProvider.of<T>(this);
-    } catch (_) {
-      return null;
-    }
   }
 }
