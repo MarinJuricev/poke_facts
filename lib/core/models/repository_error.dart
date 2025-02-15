@@ -1,4 +1,3 @@
-// repository_error.dart
 import 'package:equatable/equatable.dart';
 
 sealed class RepositoryError extends Equatable {
