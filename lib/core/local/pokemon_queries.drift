@@ -1,0 +1,41 @@
+CREATE TABLE local_pokemons (
+  id INTEGER PRIMARY KEY,
+  name TEXT NOT NULL,
+  base_experience INTEGER NOT NULL,
+  height INTEGER NOT NULL,
+  weight INTEGER NOT NULL
+);
+
+CREATE VIRTUAL TABLE local_pokemons_fts USING fts5(
+  name,
+  content='local_pokemons',
+  content_rowid='id'
+);
+
+CREATE TRIGGER local_pokemons_ai AFTER INSERT ON local_pokemons BEGIN
+  INSERT INTO local_pokemons_fts(rowid, name)
+  VALUES (new.id, new.name);
+END;
+
+CREATE TRIGGER local_pokemons_ad AFTER DELETE ON local_pokemons BEGIN
+  DELETE FROM local_pokemons_fts WHERE rowid = old.id;
+END;
+
+CREATE TRIGGER local_pokemons_au AFTER UPDATE ON local_pokemons BEGIN
+  UPDATE local_pokemons_fts SET name = new.name
+  WHERE rowid = old.id;
+END;
+
+-- Queries
+insertPokemon:
+INSERT OR REPLACE INTO local_pokemons (id, name, base_experience, height, weight)
+VALUES (?, ?, ?, ?, ?);
+
+selectAllPokemons:
+SELECT * FROM local_pokemons;
+
+selectPokemonsByName:
+SELECT p.id, p.name, p.base_experience, p.height, p.weight
+FROM local_pokemons p
+JOIN local_pokemons_fts fts ON p.id = fts.rowid
+WHERE local_pokemons_fts MATCH ?;
