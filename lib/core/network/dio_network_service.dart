@@ -12,11 +12,11 @@ class DioNetworkService implements NetworkService {
 
   @override
   TaskEither<RepositoryError, List<NetworkPokemon>> getPokemons() {
-    return _fetchAndStoreAllPokemonDetailsTask();
+    return _fetchAllPokemonsTask();
   }
 
   TaskEither<RepositoryError, List<NetworkPokemon>>
-      _fetchAndStoreAllPokemonDetailsTask({int concurrency = 10}) {
+      _fetchAllPokemonsTask({int concurrency = 10}) {
     return TaskEither.tryCatch(() async {
       _cancelToken?.cancel();
       _cancelToken = CancelToken();
