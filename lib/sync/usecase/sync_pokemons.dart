@@ -22,9 +22,9 @@ class SyncPokemons {
 
   Future<Either<PokemonSyncFailure, Unit>> _call() async {
     final shouldSync = await _shouldSync();
-    // if (!shouldSync) {
-    //   return left(const SyncNotNeeded());
-    // }
+    if (!shouldSync) {
+      return left(const SyncNotNeeded());
+    }
 
     return await _syncWithBackoff(0, maxAttempts: 5);
   }

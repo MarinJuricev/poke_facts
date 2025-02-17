@@ -21,7 +21,7 @@ class DioNetworkService implements NetworkService {
       _cancelToken?.cancel();
       _cancelToken = CancelToken();
       final response = await dio.get(
-        'https://pokeapi.co/api/v2/pokemon?limit=100000',
+        'pokemon?limit=100000',
         cancelToken: _cancelToken,
       );
       final summaries = response.data['results'] as List<dynamic>;
