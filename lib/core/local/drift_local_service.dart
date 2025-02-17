@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:poke_facts/core/local/pokemon_database.dart';
 
 import 'local_service.dart';
@@ -9,7 +10,7 @@ class DriftLocalService implements LocalService {
   DriftLocalService(this._db);
 
   @override
-  Future<void> insertPokemons(List<LocalPokemon> pokemons) async {
+  Future<Unit> insertPokemons(List<LocalPokemon> pokemons) async {
     await _db.batch(
       (batch) {
         batch.customStatement(
@@ -28,6 +29,8 @@ class DriftLocalService implements LocalService {
         );
       },
     );
+
+    return unit;
   }
 
   @override

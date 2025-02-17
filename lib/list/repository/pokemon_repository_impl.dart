@@ -1,4 +1,6 @@
 import 'package:fpdart/fpdart.dart';
+import 'package:poke_facts/core/local/local_service.dart';
+import 'package:poke_facts/core/local/pokemon_database.dart';
 import 'package:poke_facts/core/models/repository_error.dart';
 import 'package:poke_facts/core/network/network_service.dart';
 import 'package:poke_facts/list/model/pokemon.dart';
@@ -7,17 +9,43 @@ import 'pokemon_repository.dart';
 
 class PokemonRepositoryImpl implements PokemonRepository {
   final NetworkService networkService;
+  final LocalService localService;
 
-  PokemonRepositoryImpl({required this.networkService});
+  PokemonRepositoryImpl({
+    required this.networkService,
+    required this.localService,
+  });
 
   @override
-  TaskEither<RepositoryError, Pokemon> getPokemon(String name) {
-    return networkService.getPokemon(name).map(
-          (networkPokemon) => Pokemon(
-            name: networkPokemon.name,
-            height: networkPokemon.height,
-            weight: networkPokemon.weight,
-          ),
-        );
-  }
+  Stream<List<Pokemon>> observePokemons(String name) =>
+      localService.selectPokemonsByTerm(name).map(
+            (localPokemons) => localPokemons
+                .map(
+                  (localPokemon) => Pokemon(
+                    name: localPokemon.name,
+                    height: localPokemon.height,
+                    weight: localPokemon.weight,
+                  ),
+                )
+                .toList(),
+          );
+
+  @override
+  TaskEither<RepositoryError, Unit> refresh() => networkService
+      .getPokemons()
+      .map(
+        (networkPokemonList) => networkPokemonList
+            .map(
+              (networkPokemon) => LocalPokemon(
+                id: 1,
+                baseExperience: 0,
+                name: networkPokemon.name,
+                height: networkPokemon.height,
+                weight: networkPokemon.weight,
+              ),
+            )
+            .toList(),
+      )
+      .map((result) => localService.insertPokemons(result))
+      .map((result) => unit);
 }

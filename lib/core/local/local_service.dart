@@ -1,8 +1,9 @@
+import 'package:fpdart/fpdart.dart';
 import 'package:poke_facts/core/local/pokemon_database.dart';
 
 abstract class LocalService {
 
-  Future<void> insertPokemons(List<LocalPokemon> pokemons);
+  Future<Unit> insertPokemons(List<LocalPokemon> pokemons);
 
   Stream<List<LocalPokemon>> selectAllPokemons();
 

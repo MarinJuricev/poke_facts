@@ -2,10 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:poke_facts/navigation/navigation_declaration.dart';
 
 import 'di.dart';
+import 'sync/usecase/sync_pokemons.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await loadDependencies();
+  final syncPokemons = getIt<SyncPokemons>();
+  syncPokemons().run().then((result) {
+    result.match(
+      (failure) => print("Sync failed: $failure"),
+      (unit) => print("Sync succeeded!"),
+    );
+  });
+
   runApp(const App());
 }
 

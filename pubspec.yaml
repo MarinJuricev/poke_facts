@@ -46,6 +46,7 @@ dependencies:
   rxdart: ^0.28.0
   drift: ^2.25.1
   drift_flutter: ^0.2.4
+  shared_preferences: ^2.5.2
 
 dev_dependencies:
   flutter_test:

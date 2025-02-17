@@ -5,7 +5,7 @@ import 'package:poke_facts/list/repository/pokemon_repository.dart';
 import 'package:poke_facts/list/repository/pokemon_repository_impl.dart';
 import 'package:poke_facts/list/usecase/get_pokemons.dart';
 
-void loadPokemonDetailModule() {
+void loadPokemonListModule() {
   getIt.registerFactory<PokeListBloc>(() => PokeListBloc(
         getPokemons: getIt<GetPokemons>(),
       ));
