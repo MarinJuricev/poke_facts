@@ -14,4 +14,6 @@ Future<void> loadDependencies() async {
   loadLocalModule();
   loadHomeModule();
   loadPokemonListModule();
+
+  await getIt.allReady();
 }

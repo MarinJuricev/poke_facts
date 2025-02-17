@@ -7,6 +7,7 @@ import 'sync/usecase/sync_pokemons.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await loadDependencies();
+
   final syncPokemons = getIt<SyncPokemons>();
   syncPokemons().run().then((result) {
     result.match(

@@ -12,28 +12,58 @@ class DioNetworkService implements NetworkService {
 
   @override
   TaskEither<RepositoryError, List<NetworkPokemon>> getPokemons() {
-    return TaskEither.tryCatch(
-          () async {
-        _cancelToken?.cancel();
-        _cancelToken = CancelToken();
+    return _fetchAndStoreAllPokemonDetailsTask();
+  }
 
-        final response = await dio.get(
-          'pokemon?limit=100000',
-          cancelToken: _cancelToken,
-        );
-        if (response.statusCode == 200 && response.data != null) {
-          final results = response.data['results'] as List<dynamic>;
-          return results.map((json) => NetworkPokemon.fromJson(json)).toList();
-        } else {
-          throw CodeFailure(statusCode: response.statusCode ?? 0);
-        }
-      },
-          (error, stacktrace) {
-        print('The error is $error, and the stacktrace is $stacktrace');
-        return error is RepositoryError
+  TaskEither<RepositoryError, List<NetworkPokemon>>
+      _fetchAndStoreAllPokemonDetailsTask({int concurrency = 10}) {
+    return TaskEither.tryCatch(() async {
+      _cancelToken?.cancel();
+      _cancelToken = CancelToken();
+      final response = await dio.get(
+        'https://pokeapi.co/api/v2/pokemon?limit=100000',
+        cancelToken: _cancelToken,
+      );
+      final summaries = response.data['results'] as List<dynamic>;
+      return summaries;
+    },
+        (error, stackTrace) => error is RepositoryError
             ? error
-            : const UnknownRepositoryError();
-      },
-    );
+            : const UnknownRepositoryError()).flatMap((summaries) {
+      return _fetchAllPokemonDetailsTask(summaries, concurrency: concurrency);
+    });
+  }
+
+  TaskEither<RepositoryError, List<NetworkPokemon>> _fetchAllPokemonDetailsTask(
+    List<dynamic> summaries, {
+    int concurrency = 10,
+  }) {
+    return TaskEither.tryCatch(() async {
+      final List<NetworkPokemon> results = [];
+      final List<Future<void>> currentBatch = [];
+
+      for (final summary in summaries) {
+        final url = summary['url'] as String;
+
+        final future = () async {
+          final response = await dio.get(url);
+          final detail = NetworkPokemon.fromJson(response.data);
+          results.add(detail);
+        }();
+        currentBatch.add(future);
+
+        if (currentBatch.length >= concurrency) {
+          await Future.wait(currentBatch);
+          currentBatch.clear();
+        }
+      }
+
+      if (currentBatch.isNotEmpty) {
+        await Future.wait(currentBatch);
+      }
+      return results;
+    },
+        (error, stackTrace) =>
+            error is RepositoryError ? error : const UnknownRepositoryError());
   }
 }

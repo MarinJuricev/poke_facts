@@ -7,6 +7,7 @@ part 'poke_list_state.freezed.dart';
 class PokeListState with _$PokeListState {
   const factory PokeListState({
     @Default(null) String? query,
+    @Default(null) String? errorMessage,
     @Default([]) List<PokeListItem> gridItems,
   }) = _PokeListState;
 }
