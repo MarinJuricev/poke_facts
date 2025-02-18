@@ -15,13 +15,14 @@ class DioNetworkService implements NetworkService {
     return _fetchAllPokemonsTask();
   }
 
-  TaskEither<RepositoryError, List<NetworkPokemon>>
-      _fetchAllPokemonsTask({int concurrency = 10}) {
+  TaskEither<RepositoryError, List<NetworkPokemon>> _fetchAllPokemonsTask(
+      {int concurrency = 10}) {
     return TaskEither.tryCatch(() async {
       _cancelToken?.cancel();
       _cancelToken = CancelToken();
       final response = await dio.get(
-        'pokemon?limit=100000',
+        // Fetch only the "original" pokemon, doing 1500+ API calls to have them is insanity
+        'pokemon?limit=151',
         cancelToken: _cancelToken,
       );
       final summaries = response.data['results'] as List<dynamic>;
