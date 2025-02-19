@@ -38,4 +38,4 @@ selectPokemonsByName:
 SELECT p.id, p.name, p.base_experience, p.height, p.weight
 FROM local_pokemons p
 JOIN local_pokemons_fts fts ON p.id = fts.rowid
-WHERE local_pokemons_fts MATCH ?;
+WHERE fts MATCH ?;
