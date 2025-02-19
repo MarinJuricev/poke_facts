@@ -8,7 +8,7 @@ class PokeListState with _$PokeListState {
   const factory PokeListState({
     @Default(null) String? query,
     @Default(null) String? errorMessage,
-    @Default([]) List<PokeListItem> gridItems,
+    @Default([]) List<PokeListItem> items,
   }) = _PokeListState;
 }
 

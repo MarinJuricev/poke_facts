@@ -35,6 +35,7 @@ class PokeListBloc extends Bloc<PokeListEvent, PokeListState> {
 
     _subscription = observePokemons(query).listen(
       (pokemonList) {
+        print('Got pokemonList: $pokemonList');
         final items = pokemonList.map((pokemon) {
           return PokeListItem(
             text: pokemon.name,
@@ -43,7 +44,7 @@ class PokeListBloc extends Bloc<PokeListEvent, PokeListState> {
             color: Colors.green,
           );
         }).toList();
-        emit(state.copyWith(gridItems: items, errorMessage: null));
+        emit(state.copyWith(items: items, errorMessage: null));
       },
       onError: (error) {
         emit(state.copyWith(errorMessage: error.toString()));

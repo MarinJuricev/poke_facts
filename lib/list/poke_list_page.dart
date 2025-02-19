@@ -36,6 +36,8 @@ class PokeListContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final state = context.watch<PokeListBloc>().state;
+
     return Scaffold(
       appBar: AppBar(
         title: Hero(
@@ -51,7 +53,42 @@ class PokeListContent extends StatelessWidget {
           ),
         ),
       ),
-      body: const Center(child: Text('Pokemon List Page')),
+      body: state.errorMessage != null
+          ? Center(child: Text('Error: ${state.errorMessage}'))
+          : GridView.builder(
+              padding: const EdgeInsets.all(8),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisSpacing: 8,
+                crossAxisSpacing: 8,
+                childAspectRatio: 1,
+              ),
+              itemCount: state.items.length,
+              itemBuilder: (context, index) {
+                final item = state.items[index];
+                return Card(
+                  color: item.color,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          item.text,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text('Height: ${item.height}'),
+                        Text('Weight: ${item.weight}'),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
     );
   }
 }

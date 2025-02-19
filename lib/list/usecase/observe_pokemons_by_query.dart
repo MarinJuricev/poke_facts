@@ -15,7 +15,9 @@ class ObservePokemonsByQuery {
               sink.add(data);
             },
             handleError: (error, stackTrace, sink) {
-              print('TODO: Handle me');
+              print('Got error: $error');
+              print('================');
+              print('Got stacktrace: $stackTrace');
             },
           ),
         );
