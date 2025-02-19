@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:poke_facts/list/model/pokemon.dart';
 
 sealed class PokeListEvent extends Equatable {
   const PokeListEvent();
@@ -20,4 +21,22 @@ final class PokeListQueryChanged extends PokeListEvent {
 
   @override
   List<Object?> get props => [query];
+}
+
+final class PokeListUpdated extends PokeListEvent {
+  final List<Pokemon> pokemonList;
+
+  const PokeListUpdated(this.pokemonList);
+
+  @override
+  List<Object?> get props => [pokemonList];
+}
+
+final class PokeListError extends PokeListEvent {
+  final String errorMessage;
+
+  const PokeListError(this.errorMessage);
+
+  @override
+  List<Object?> get props => [errorMessage];
 }

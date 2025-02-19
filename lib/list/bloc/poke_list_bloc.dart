@@ -15,7 +15,7 @@ class PokeListBloc extends Bloc<PokeListEvent, PokeListState> {
   PokeListBloc({required this.observePokemons}) : super(const PokeListState()) {
     on<OnLoad>((event, emit) async {
       emit(state.copyWith(query: event.query));
-      _observePokemons(event.query, emit);
+      _observePokemons(event.query);
     });
 
     on<PokeListQueryChanged>(
@@ -24,30 +24,36 @@ class PokeListBloc extends Bloc<PokeListEvent, PokeListState> {
         await Future.delayed(_debounceDuration);
 
         if (state.query == event.query) {
-          _observePokemons(event.query, emit);
+          _observePokemons(event.query);
         }
       },
     );
+
+    on<PokeListUpdated>((event, emit) {
+      final items = event.pokemonList.map((pokemon) {
+        return PokeListItem(
+          text: pokemon.name,
+          height: pokemon.height,
+          weight: pokemon.weight,
+          color: Colors.green,
+        );
+      }).toList();
+      emit(state.copyWith(items: items, errorMessage: null));
+    });
+
+    on<PokeListError>((event, emit) {
+      emit(state.copyWith(errorMessage: event.errorMessage));
+    });
   }
 
-  void _observePokemons(String query, Emitter<PokeListState> emit) {
+  void _observePokemons(String query) {
     _subscription?.cancel();
-
     _subscription = observePokemons(query).listen(
       (pokemonList) {
-        print('Got pokemonList: $pokemonList');
-        final items = pokemonList.map((pokemon) {
-          return PokeListItem(
-            text: pokemon.name,
-            height: pokemon.height,
-            weight: pokemon.weight,
-            color: Colors.green,
-          );
-        }).toList();
-        emit(state.copyWith(items: items, errorMessage: null));
+        add(PokeListUpdated(pokemonList));
       },
       onError: (error) {
-        emit(state.copyWith(errorMessage: error.toString()));
+        add(PokeListError(error.toString()));
       },
     );
   }

@@ -37,7 +37,7 @@ class PokemonRepositoryImpl implements PokemonRepository {
         (networkPokemonList) => networkPokemonList
             .map(
               (networkPokemon) => LocalPokemon(
-                id: 1,
+                id: networkPokemon.id,
                 baseExperience: 0,
                 name: networkPokemon.name,
                 height: networkPokemon.height,

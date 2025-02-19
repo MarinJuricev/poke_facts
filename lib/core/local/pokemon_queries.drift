@@ -1,3 +1,4 @@
+-- import: sqlite_extensions
 CREATE TABLE local_pokemons (
   id INTEGER PRIMARY KEY,
   name TEXT NOT NULL,
@@ -6,7 +7,7 @@ CREATE TABLE local_pokemons (
   weight INTEGER NOT NULL
 );
 
-CREATE VIRTUAL TABLE local_pokemons_fts USING fts5(
+CREATE VIRTUAL TABLE IF NOT EXISTS local_pokemons_fts USING fts5(
   name,
   content='local_pokemons',
   content_rowid='id'
@@ -38,4 +39,10 @@ selectPokemonsByName:
 SELECT p.id, p.name, p.base_experience, p.height, p.weight
 FROM local_pokemons p
 JOIN local_pokemons_fts fts ON p.id = fts.rowid
-WHERE fts MATCH ?;
+WHERE local_pokemons_fts MATCH ?;
+
+-- We prefer the fts impl, but let's debug and see if this works
+selectMainPokemonsByName:
+SELECT id, name, base_experience, height, weight
+FROM local_pokemons
+WHERE name LIKE ?;

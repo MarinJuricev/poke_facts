@@ -11,7 +11,7 @@ class PokemonDatabase extends _$PokemonDatabase {
   PokemonDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 1;
 
   static QueryExecutor _openConnection() {
     return driftDatabase(
