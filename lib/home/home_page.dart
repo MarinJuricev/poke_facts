@@ -6,8 +6,8 @@ import 'package:poke_facts/di.dart';
 import 'package:poke_facts/home/bloc/home_bloc.dart';
 import 'package:poke_facts/home/component/home_grid.dart';
 import 'package:poke_facts/home/component/pokemon_logo.dart';
+import 'package:poke_facts/navigation/navigation_declaration.dart';
 
-import '../navigation/navigation_declaration.dart';
 import 'bloc/home_event.dart';
 import 'bloc/home_state.dart';
 
