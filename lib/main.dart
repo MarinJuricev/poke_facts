@@ -11,8 +11,8 @@ void main() async {
   final syncPokemons = getIt<SyncPokemons>();
   syncPokemons().run().then((result) {
     result.match(
-      (failure) => print("Sync failed: $failure"),
-      (unit) => print("Sync succeeded!"),
+      (failure) => debugPrint("Sync failed: $failure"),
+      (unit) => debugPrint("Sync succeeded!"),
     );
   });
 
