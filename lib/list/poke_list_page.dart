@@ -4,6 +4,7 @@ import 'package:poke_facts/components/poke_text_field.dart';
 import 'package:poke_facts/di.dart';
 import 'package:poke_facts/list/bloc/poke_list_bloc.dart';
 import 'package:poke_facts/list/bloc/poke_list_event.dart';
+import 'package:poke_facts/list/bloc/poke_list_state.dart';
 
 class PokeListPage extends StatelessWidget {
   final String query;
@@ -55,40 +56,50 @@ class PokeListContent extends StatelessWidget {
       ),
       body: state.errorMessage != null
           ? Center(child: Text('Error: ${state.errorMessage}'))
-          : GridView.builder(
-              padding: const EdgeInsets.all(8),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisSpacing: 8,
-                crossAxisSpacing: 8,
-                childAspectRatio: 1,
-              ),
-              itemCount: state.items.length,
-              itemBuilder: (context, index) {
-                final item = state.items[index];
-                return Card(
-                  color: item.color,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          item.text,
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        Text('Height: ${item.height}'),
-                        Text('Weight: ${item.weight}'),
-                      ],
-                    ),
+          : _PokemonListGrid(items: state.items),
+    );
+  }
+}
+
+class _PokemonListGrid extends StatelessWidget {
+  const _PokemonListGrid({required this.items});
+  final List<PokeListItem> items;
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.builder(
+      padding: const EdgeInsets.all(8),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        mainAxisSpacing: 8,
+        crossAxisSpacing: 8,
+        childAspectRatio: 1,
+      ),
+      itemCount: items.length,
+      itemBuilder: (context, index) {
+        final item = items[index];
+        return Card(
+          color: item.color,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  item.text,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
                   ),
-                );
-              },
+                ),
+                const SizedBox(height: 4),
+                Text('Height: ${item.height}'),
+                Text('Weight: ${item.weight}'),
+              ],
             ),
+          ),
+        );
+      },
     );
   }
 }
