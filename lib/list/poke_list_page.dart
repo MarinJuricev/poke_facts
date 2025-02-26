@@ -1,3 +1,4 @@
+import 'package:animated_reorderable_list/animated_reorderable_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poke_facts/components/poke_text_field.dart';
@@ -67,39 +68,33 @@ class _PokemonListGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-      padding: const EdgeInsets.all(8),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        mainAxisSpacing: 8,
-        crossAxisSpacing: 8,
-        childAspectRatio: 1,
-      ),
-      itemCount: items.length,
-      itemBuilder: (context, index) {
-        final item = items[index];
-        return Card(
-          color: item.color,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  item.text,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+    return AnimatedListView(
+        items: items,
+        itemBuilder: (context, index) {
+          final item = items[index];
+          return Card(
+            key: ValueKey(item.text),
+            color: item.color,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    item.text,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 4),
-                Text('Height: ${item.height}'),
-                Text('Weight: ${item.weight}'),
-              ],
+                  const SizedBox(height: 4),
+                  Text('Height: ${item.height}'),
+                  Text('Weight: ${item.weight}'),
+                ],
+              ),
             ),
-          ),
-        );
-      },
-    );
+          );
+        },
+        isSameItem: (a, b) => a.text == b.text);
   }
 }
