@@ -17,34 +17,42 @@ class PokemonRepositoryImpl implements PokemonRepository {
   });
 
   @override
-  Stream<List<Pokemon>> observePokemons(String name) =>
-      localService.selectPokemonsByTerm(name).map(
-            (localPokemons) => localPokemons
+  Stream<List<Pokemon>> observePokemons(String name) => localService
+      .selectPokemonsByTerm(name)
+      .map(
+        (localPokemons) =>
+            localPokemons
                 .map(
                   (localPokemon) => Pokemon(
                     name: localPokemon.name,
+                    image: localPokemon.frontDefault,
                     height: localPokemon.height,
                     weight: localPokemon.weight,
                   ),
                 )
                 .toList(),
-          );
+      );
 
   @override
   TaskEither<RepositoryError, Unit> refresh() => networkService
       .getPokemons()
       .map(
-        (networkPokemonList) => networkPokemonList
-            .map(
-              (networkPokemon) => LocalPokemon(
-                id: networkPokemon.id,
-                baseExperience: 0,
-                name: networkPokemon.name,
-                height: networkPokemon.height,
-                weight: networkPokemon.weight,
-              ),
-            )
-            .toList(),
+        (networkPokemonList) =>
+            networkPokemonList
+                .map(
+                  (networkPokemon) => LocalPokemon(
+                    id: networkPokemon.id,
+                    baseExperience: 0,
+                    name: networkPokemon.name,
+                    height: networkPokemon.height,
+                    weight: networkPokemon.weight,
+                    frontDefault: networkPokemon.sprites.frontDefault,
+                    frontShiny: networkPokemon.sprites.frontShiny,
+                    backDefault: networkPokemon.sprites.backDefault,
+                    backShiny: networkPokemon.sprites.backShiny,
+                  ),
+                )
+                .toList(),
       )
       .map((result) => localService.insertPokemons(result))
       .map((result) => unit);

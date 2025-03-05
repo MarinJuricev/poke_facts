@@ -4,7 +4,11 @@ CREATE TABLE local_pokemons (
   name TEXT NOT NULL,
   base_experience INTEGER NOT NULL,
   height INTEGER NOT NULL,
-  weight INTEGER NOT NULL
+  weight INTEGER NOT NULL,
+  front_default TEXT NOT NULL,
+  back_default TEXT NOT NULL,
+  front_shiny TEXT NOT NULL,
+  back_shiny TEXT NOT NULL
 );
 
 CREATE VIRTUAL TABLE IF NOT EXISTS local_pokemons_fts USING fts5(
@@ -28,21 +32,18 @@ CREATE TRIGGER local_pokemons_au AFTER UPDATE ON local_pokemons BEGIN
 END;
 
 -- Queries
+
 insertPokemon:
-INSERT OR REPLACE INTO local_pokemons (id, name, base_experience, height, weight)
-VALUES (?, ?, ?, ?, ?);
+INSERT OR REPLACE INTO local_pokemons 
+  (id, name, base_experience, height, weight, front_default, back_default, front_shiny, back_shiny)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
 
 selectAllPokemons:
-SELECT * FROM local_pokemons;
+SELECT id, name, base_experience, height, weight, front_default, back_default, front_shiny, back_shiny
+FROM local_pokemons;
 
 selectPokemonsByName:
-SELECT p.id, p.name, p.base_experience, p.height, p.weight
+SELECT p.id, p.name, p.base_experience, p.height, p.weight, p.front_default, p.back_default, p.front_shiny, p.back_shiny
 FROM local_pokemons p
 JOIN local_pokemons_fts fts ON p.id = fts.rowid
 WHERE local_pokemons_fts MATCH ?;
-
--- We prefer the fts impl, but let's debug and see if this works
-selectMainPokemonsByName:
-SELECT id, name, base_experience, height, weight
-FROM local_pokemons
-WHERE name LIKE ?;

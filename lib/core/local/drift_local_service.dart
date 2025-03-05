@@ -20,6 +20,10 @@ class DriftLocalService implements LocalService {
             pokemon.baseExperience,
             pokemon.height,
             pokemon.weight,
+            pokemon.frontDefault,
+            pokemon.backDefault,
+            pokemon.frontShiny,
+            pokemon.backShiny,
           );
         }),
       );
@@ -32,39 +36,43 @@ class DriftLocalService implements LocalService {
 
   @override
   Stream<List<LocalPokemon>> selectPokemonsByTerm(String searchTerm) {
-    return _db.selectPokemonsByName('$searchTerm*').watch().map(
-      (rows) {
-        return rows
-            .map(
-              (row) => LocalPokemon(
-                id: row.id,
-                name: row.name,
-                baseExperience: row.baseExperience,
-                height: row.height,
-                weight: row.weight,
-              ),
-            )
-            .toList();
-      },
-    );
+    return _db.selectPokemonsByName('$searchTerm*').watch().map((rows) {
+      return rows
+          .map(
+            (row) => LocalPokemon(
+              id: row.id,
+              name: row.name,
+              baseExperience: row.baseExperience,
+              height: row.height,
+              weight: row.weight,
+              frontDefault: row.frontDefault,
+              backDefault: row.backDefault,
+              frontShiny: row.frontShiny,
+              backShiny: row.backShiny,
+            ),
+          )
+          .toList();
+    });
   }
 
   @override
   Stream<List<LocalPokemon>> selectAllPokemons() {
-    return _db.selectAllPokemons().watch().map(
-      (rows) {
-        return rows
-            .map(
-              (row) => LocalPokemon(
-                id: row.id,
-                name: row.name,
-                baseExperience: row.baseExperience,
-                height: row.height,
-                weight: row.weight,
-              ),
-            )
-            .toList();
-      },
-    );
+    return _db.selectAllPokemons().watch().map((rows) {
+      return rows
+          .map(
+            (row) => LocalPokemon(
+              id: row.id,
+              name: row.name,
+              baseExperience: row.baseExperience,
+              height: row.height,
+              weight: row.weight,
+              frontDefault: row.frontDefault,
+              backDefault: row.backDefault,
+              frontShiny: row.frontShiny,
+              backShiny: row.backShiny,
+            ),
+          )
+          .toList();
+    });
   }
 }
