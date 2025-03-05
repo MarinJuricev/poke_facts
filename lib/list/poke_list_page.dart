@@ -1,6 +1,4 @@
 import 'package:animated_reorderable_list/animated_reorderable_list.dart';
-import 'package:cached_network_image/cached_network_image.dart'
-    show CachedNetworkImage;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poke_facts/components/poke_image.dart';
@@ -72,7 +70,7 @@ class _PokemonListGrid extends StatelessWidget {
         final item = items[index];
         return PokeListImem(item: item, key: ValueKey(item.text));
       },
-      isSameItem: (oldItem, newItem) => oldItem.text == newItem.text,
+      isSameItem: (oldItem, newItem) => oldItem.id == newItem.id,
     );
   }
 }
@@ -92,7 +90,7 @@ class PokeListImem extends StatelessWidget {
         padding: const EdgeInsets.all(12.0),
         child: Row(
           children: [
-            PokeImage(url: ''),
+            PokeImage(url: item.url),
             const SizedBox(width: 16),
             Expanded(
               child: Column(

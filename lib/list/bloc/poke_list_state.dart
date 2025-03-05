@@ -15,10 +15,11 @@ class PokeListState with _$PokeListState {
 @freezed
 class PokeListItem with _$PokeListItem {
   const factory PokeListItem({
+    required String id,
     required String text,
+    required String url,
     required int height,
     required int weight,
     required Color color,
   }) = _PokeListItem;
 }
-

@@ -22,9 +22,9 @@ class SyncPokemons {
 
   Future<Either<PokemonSyncFailure, Unit>> _call() async {
     final shouldSync = await _shouldSync();
-    // if (!shouldSync) {
-    //   return left(const SyncNotNeeded());
-    // }
+    if (!shouldSync) {
+      return left(const SyncNotNeeded());
+    }
 
     return await _syncWithBackoff(0, maxAttempts: 5);
   }
@@ -40,22 +40,21 @@ class SyncPokemons {
     return false;
   }
 
-  Future<Either<PokemonSyncFailure, Unit>> _syncWithBackoff(int attempt,
-      {int maxAttempts = 5}) async {
+  Future<Either<PokemonSyncFailure, Unit>> _syncWithBackoff(
+    int attempt, {
+    int maxAttempts = 5,
+  }) async {
     final result = await pokemonRepository.refresh().run();
-    return await result.fold(
-      (failure) async {
-        if (attempt < maxAttempts) {
-          final baseDelay = 250;
-          final delayMs = baseDelay * (1 << attempt);
-          await Future.delayed(Duration(milliseconds: delayMs));
-          return await _syncWithBackoff(attempt + 1, maxAttempts: maxAttempts);
-        } else {
-          return left(const SyncRetry());
-        }
-      },
-      (unit) async => right(unit),
-    );
+    return await result.fold((failure) async {
+      if (attempt < maxAttempts) {
+        final baseDelay = 250;
+        final delayMs = baseDelay * (1 << attempt);
+        await Future.delayed(Duration(milliseconds: delayMs));
+        return await _syncWithBackoff(attempt + 1, maxAttempts: maxAttempts);
+      } else {
+        return left(const SyncRetry());
+      }
+    }, (unit) async => right(unit));
   }
 }
 

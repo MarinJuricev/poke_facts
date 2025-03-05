@@ -18,26 +18,27 @@ class PokeListBloc extends Bloc<PokeListEvent, PokeListState> {
       _observePokemons(event.query);
     });
 
-    on<PokeListQueryChanged>(
-      (event, emit) async {
-        emit(state.copyWith(query: event.query));
-        await Future.delayed(_debounceDuration);
+    on<PokeListQueryChanged>((event, emit) async {
+      emit(state.copyWith(query: event.query));
+      await Future.delayed(_debounceDuration);
 
-        if (state.query == event.query) {
-          _observePokemons(event.query);
-        }
-      },
-    );
+      if (state.query == event.query) {
+        _observePokemons(event.query);
+      }
+    });
 
     on<PokeListUpdated>((event, emit) {
-      final items = event.pokemonList.map((pokemon) {
-        return PokeListItem(
-          text: pokemon.name,
-          height: pokemon.height,
-          weight: pokemon.weight,
-          color: Colors.green,
-        );
-      }).toList();
+      final items =
+          event.pokemonList.map((pokemon) {
+            return PokeListItem(
+              id: pokemon.id,
+              text: pokemon.name,
+              url: pokemon.image,
+              height: pokemon.height,
+              weight: pokemon.weight,
+              color: Colors.green,
+            );
+          }).toList();
       emit(state.copyWith(items: items, errorMessage: null));
     });
 

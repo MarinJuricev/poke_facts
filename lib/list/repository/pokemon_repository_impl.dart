@@ -24,6 +24,7 @@ class PokemonRepositoryImpl implements PokemonRepository {
             localPokemons
                 .map(
                   (localPokemon) => Pokemon(
+                    id: localPokemon.id.toString(),
                     name: localPokemon.name,
                     image: localPokemon.frontDefault,
                     height: localPokemon.height,
