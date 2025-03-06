@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poke_facts/list/bloc/poke_list_event.dart';
 import 'package:poke_facts/list/bloc/poke_list_state.dart';
+import 'package:poke_facts/list/mapper/poke_card_mapper.dart';
 import 'package:poke_facts/list/model/pokemon.dart';
 import 'package:poke_facts/list/usecase/observe_pokemons_by_query.dart';
 
@@ -37,7 +38,10 @@ class PokeListBloc extends Bloc<PokeListEvent, PokeListState> {
               url: pokemon.image,
               height: pokemon.height,
               weight: pokemon.weight,
-              color: Colors.green,
+              color:
+                  pokemon.types.isNotEmpty
+                      ? pokemon.types.first.cardColor
+                      : Colors.white,
             );
           }).toList();
       emit(state.copyWith(items: items, errorMessage: null));
