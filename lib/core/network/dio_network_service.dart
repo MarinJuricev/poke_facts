@@ -24,7 +24,7 @@ class DioNetworkService implements NetworkService {
         _cancelToken = CancelToken();
         final response = await dio.get(
           // Fetch only the "original" pokemon, doing 1500+ API calls to have them is insanity
-          'pokemon?limit=10',
+          'pokemon?limit=151',
           cancelToken: _cancelToken,
         );
         final summaries = response.data['results'] as List<dynamic>;
