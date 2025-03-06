@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 enum PokeType {
   normal,
   fire,
@@ -21,45 +19,45 @@ enum PokeType {
   fairy,
 }
 
-extension PokeTypeIcon on PokeType {
-  IconData get icon {
+extension PokeTypeAsset on PokeType {
+  String get assetPath {
     switch (this) {
       case PokeType.normal:
-        return Icons.circle_outlined;
+        return 'assets/images/types/normal.svg';
       case PokeType.fire:
-        return Icons.local_fire_department;
+        return 'assets/images/types/fire.svg';
       case PokeType.water:
-        return Icons.water_drop;
+        return 'assets/images/types/water.svg';
       case PokeType.electric:
-        return Icons.flash_on;
+        return 'assets/images/types/electric.svg';
       case PokeType.grass:
-        return Icons.eco;
+        return 'assets/images/types/grass.svg';
       case PokeType.ice:
-        return Icons.ac_unit;
+        return 'assets/images/types/ice.svg';
       case PokeType.fighting:
-        return Icons.sports_mma;
+        return 'assets/images/types/fighting.svg';
       case PokeType.poison:
-        return Icons.biotech;
+        return 'assets/images/types/poison.svg';
       case PokeType.ground:
-        return Icons.terrain;
+        return 'assets/images/types/ground.svg';
       case PokeType.flying:
-        return Icons.air;
+        return 'assets/images/types/flying.svg';
       case PokeType.psychic:
-        return Icons.psychology;
+        return 'assets/images/types/psychic.svg';
       case PokeType.bug:
-        return Icons.bug_report;
+        return 'assets/images/types/bug.svg';
       case PokeType.rock:
-        return Icons.landscape;
+        return 'assets/images/types/rock.svg';
       case PokeType.ghost:
-        return Icons.nightlight_round;
+        return 'assets/images/types/ghost.svg';
       case PokeType.dragon:
-        return Icons.all_inclusive;
+        return 'assets/images/types/dragon.svg';
       case PokeType.dark:
-        return Icons.dark_mode;
+        return 'assets/images/types/dark.svg';
       case PokeType.steel:
-        return Icons.build;
+        return 'assets/images/types/steel.svg';
       case PokeType.fairy:
-        return Icons.auto_awesome;
+        return 'assets/images/types/fairy.svg';
     }
   }
 }

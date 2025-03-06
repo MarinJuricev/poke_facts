@@ -68,15 +68,15 @@ class _PokemonListGrid extends StatelessWidget {
       items: items,
       itemBuilder: (context, index) {
         final item = items[index];
-        return PokeListImem(item: item, key: ValueKey(item.text));
+        return _PokeListItemWidget(item: item, key: ValueKey(item.text));
       },
       isSameItem: (oldItem, newItem) => oldItem.id == newItem.id,
     );
   }
 }
 
-class PokeListImem extends StatelessWidget {
-  const PokeListImem({super.key, required this.item});
+class _PokeListItemWidget extends StatelessWidget {
+  const _PokeListItemWidget({super.key, required this.item});
 
   final PokeListItem item;
 
