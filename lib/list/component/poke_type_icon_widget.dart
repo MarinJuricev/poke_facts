@@ -6,7 +6,7 @@ class PokeTypeIcon extends StatelessWidget {
   final PokeType type;
   final double size;
 
-  const PokeTypeIcon({super.key, required this.type, this.size = 24});
+  const PokeTypeIcon({super.key, required this.type, this.size = 36});
 
   @override
   Widget build(BuildContext context) {
