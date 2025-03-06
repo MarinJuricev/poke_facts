@@ -105,8 +105,6 @@ class _PokeListItemWidget extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 4),
-                  // Text('ID: ${item.id}'),
-                  // Text('Type: ${item.type ?? "Unknown"}'),
                   Text('Height: ${item.height}'),
                   Text('Weight: ${item.weight}'),
                 ],
