@@ -7,6 +7,7 @@ import 'package:poke_facts/di.dart';
 import 'package:poke_facts/list/bloc/poke_list_bloc.dart';
 import 'package:poke_facts/list/bloc/poke_list_event.dart';
 import 'package:poke_facts/list/bloc/poke_list_state.dart';
+import 'package:poke_facts/list/component/poke_type_icon_widget.dart';
 
 class PokeListPage extends StatelessWidget {
   final String query;
@@ -111,6 +112,7 @@ class _PokeListItemWidget extends StatelessWidget {
                 ],
               ),
             ),
+            ...item.types.map((type) => PokeTypeIcon(type: type)),
           ],
         ),
       ),

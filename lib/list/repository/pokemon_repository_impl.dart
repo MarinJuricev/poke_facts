@@ -1,6 +1,7 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:poke_facts/core/local/local_service.dart';
 import 'package:poke_facts/core/local/pokemon_database.dart';
+import 'package:poke_facts/core/models/poke_type.dart';
 import 'package:poke_facts/core/models/repository_error.dart';
 import 'package:poke_facts/core/network/network_service.dart';
 import 'package:poke_facts/list/model/pokemon.dart';
@@ -29,6 +30,7 @@ class PokemonRepositoryImpl implements PokemonRepository {
                     image: localPokemon.frontDefault,
                     height: localPokemon.height,
                     weight: localPokemon.weight,
+                    types: _parseTypes(localPokemon.types),
                   ),
                 )
                 .toList(),
@@ -47,6 +49,9 @@ class PokemonRepositoryImpl implements PokemonRepository {
                     name: networkPokemon.name,
                     height: networkPokemon.height,
                     weight: networkPokemon.weight,
+                    types: networkPokemon.types
+                        .map((networkType) => networkType.type.name)
+                        .join(','),
                     frontDefault: networkPokemon.sprites.frontDefault,
                     frontShiny: networkPokemon.sprites.frontShiny,
                     backDefault: networkPokemon.sprites.backDefault,
@@ -57,4 +62,11 @@ class PokemonRepositoryImpl implements PokemonRepository {
       )
       .map((result) => localService.insertPokemons(result))
       .map((result) => unit);
+
+  List<PokeType> _parseTypes(String typesString) {
+    return typesString
+        .split(',')
+        .map((str) => PokeType.values.firstWhere((t) => t.name == str))
+        .toList();
+  }
 }

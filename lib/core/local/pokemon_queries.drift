@@ -5,6 +5,7 @@ CREATE TABLE local_pokemons (
   base_experience INTEGER NOT NULL,
   height INTEGER NOT NULL,
   weight INTEGER NOT NULL,
+  types TEXT NOT NULL, 
   front_default TEXT NOT NULL,
   back_default TEXT NOT NULL,
   front_shiny TEXT NOT NULL,
@@ -35,15 +36,15 @@ END;
 
 insertPokemon:
 INSERT OR REPLACE INTO local_pokemons 
-  (id, name, base_experience, height, weight, front_default, back_default, front_shiny, back_shiny)
-VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
+  (id, name, base_experience, height, weight, types, front_default, back_default, front_shiny, back_shiny)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
 
 selectAllPokemons:
-SELECT id, name, base_experience, height, weight, front_default, back_default, front_shiny, back_shiny
+SELECT id, name, base_experience, height, weight, types, front_default, back_default, front_shiny, back_shiny
 FROM local_pokemons;
 
 selectPokemonsByName:
-SELECT p.id, p.name, p.base_experience, p.height, p.weight, p.front_default, p.back_default, p.front_shiny, p.back_shiny
+SELECT p.id, p.name, p.base_experience, p.height, p.weight, p.types, p.front_default, p.back_default, p.front_shiny, p.back_shiny
 FROM local_pokemons p
 JOIN local_pokemons_fts fts ON p.id = fts.rowid
 WHERE local_pokemons_fts MATCH ?;

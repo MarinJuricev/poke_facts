@@ -32,6 +32,7 @@ class PokeListBloc extends Bloc<PokeListEvent, PokeListState> {
           event.pokemonList.map((pokemon) {
             return PokeListItem(
               id: pokemon.id,
+              types: pokemon.types,
               text: pokemon.name,
               url: pokemon.image,
               height: pokemon.height,

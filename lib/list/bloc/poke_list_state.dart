@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:poke_facts/core/models/poke_type.dart';
 
 part 'poke_list_state.freezed.dart';
 
@@ -21,5 +22,6 @@ class PokeListItem with _$PokeListItem {
     required int height,
     required int weight,
     required Color color,
+    required List<PokeType> types,
   }) = _PokeListItem;
 }
