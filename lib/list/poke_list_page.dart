@@ -1,6 +1,7 @@
 import 'package:animated_reorderable_list/animated_reorderable_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:poke_facts/components/poke_empty_message.dart';
 import 'package:poke_facts/components/poke_image.dart';
 import 'package:poke_facts/components/poke_text_field.dart';
 import 'package:poke_facts/di.dart';
@@ -53,11 +54,20 @@ class PokeListContent extends StatelessWidget {
           ),
         ),
       ),
-      body:
-          state.errorMessage != null
-              ? Center(child: Text('Error: ${state.errorMessage}'))
-              : _PokemonListGrid(items: state.items),
+      body: _buildBody(state),
     );
+  }
+
+  Widget _buildBody(PokeListState state) {
+    if (state.errorMessage != null) {
+      return Center(child: Text('Error: ${state.errorMessage}'));
+    } else if (state.items.isEmpty) {
+      return PokeEmptyMessage(
+        message: "No pokemons found with:\n ${state.query}",
+      );
+    } else {
+      return _PokemonListGrid(items: state.items);
+    }
   }
 }
 
