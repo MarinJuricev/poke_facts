@@ -66,13 +66,13 @@ class PokeListContent extends StatelessWidget {
         message: "No pokemons found with:\n ${state.query}",
       );
     } else {
-      return _PokemonListGrid(items: state.items);
+      return _PokemonList(items: state.items);
     }
   }
 }
 
-class _PokemonListGrid extends StatelessWidget {
-  const _PokemonListGrid({required this.items});
+class _PokemonList extends StatelessWidget {
+  const _PokemonList({required this.items});
   final List<PokeListItem> items;
 
   @override
