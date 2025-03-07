@@ -44,6 +44,7 @@ class PokeListContent extends StatelessWidget {
             child: PokeTextField(
               text: context.watch<PokeListBloc>().state.query ?? query,
               placeholder: 'Search Pokemon\'s, Moves',
+              autofocus: true,
               onChanged:
                   (value) => context.read<PokeListBloc>().add(
                     PokeListQueryChanged(value),
