@@ -6,7 +6,7 @@ import 'package:poke_facts/di.dart';
 import 'package:poke_facts/home/bloc/home_bloc.dart';
 import 'package:poke_facts/home/component/home_grid.dart';
 import 'package:poke_facts/home/component/pokemon_logo.dart';
-import 'package:poke_facts/navigation/navigation_declaration.dart';
+import 'package:poke_facts/navigation/router_declaration.dart';
 
 import 'bloc/home_event.dart';
 import 'bloc/home_state.dart';
@@ -23,8 +23,9 @@ class HomePage extends StatelessWidget {
     return BlocProvider(
       create: (context) => getIt<HomeBloc>()..add(HomeLoadEvent()),
       child: BlocListener<HomeBloc, HomeState>(
-        listenWhen: (previous, current) =>
-            previous.query != current.query && current.query.length > 3,
+        listenWhen:
+            (previous, current) =>
+                previous.query != current.query && current.query.length > 3,
         listener: (context, state) {
           context.goNamed(
             pageList,
@@ -51,9 +52,7 @@ class HomePage extends StatelessWidget {
                         textAlign: TextAlign.center,
                       ),
                       _buildSearchField(context),
-                      Expanded(
-                        child: HomeGrid(),
-                      ),
+                      Expanded(child: HomeGrid()),
                     ],
                   ),
                 ),
@@ -74,8 +73,9 @@ class HomePage extends StatelessWidget {
           child: PokeTextField(
             placeholder: 'Search Pokemon\'s, Moves',
             text: state.query,
-            onChanged: (value) =>
-                context.read<HomeBloc>().add(HomeQueryChanged(value)),
+            onChanged:
+                (value) =>
+                    context.read<HomeBloc>().add(HomeQueryChanged(value)),
           ),
         );
       },

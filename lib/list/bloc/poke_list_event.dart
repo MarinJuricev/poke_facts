@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:poke_facts/list/bloc/poke_list_state.dart';
 import 'package:poke_facts/list/model/pokemon.dart';
 
 sealed class PokeListEvent extends Equatable {
@@ -39,4 +40,13 @@ final class PokeListError extends PokeListEvent {
 
   @override
   List<Object?> get props => [errorMessage];
+}
+
+final class PokeListItemClicked extends PokeListEvent {
+  final PokeListItem item;
+
+  const PokeListItemClicked(this.item);
+
+  @override
+  List<Object?> get props => [item];
 }

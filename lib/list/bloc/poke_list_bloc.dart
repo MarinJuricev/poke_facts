@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poke_facts/list/bloc/poke_list_event.dart';
@@ -50,6 +51,12 @@ class PokeListBloc extends Bloc<PokeListEvent, PokeListState> {
     on<PokeListError>((event, emit) {
       emit(state.copyWith(errorMessage: event.errorMessage));
     });
+
+    on<PokeListItemClicked>((event, emit) async {
+      emit(state.copyWith(navigationItem: event.item));
+      await Future.delayed(Duration.zero);
+      emit(state.copyWith(navigationItem: null));
+    }, transformer: droppable());
   }
 
   void _observePokemons(String query) {

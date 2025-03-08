@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:poke_facts/navigation/navigation_declaration.dart';
+import 'package:poke_facts/navigation/router_declaration.dart';
 
 import 'di.dart';
 import 'sync/usecase/sync_pokemons.dart';
@@ -30,10 +30,7 @@ class App extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      supportedLocales: const [
-        Locale('en', 'US'),
-        Locale('hr', 'HR'),
-      ],
+      supportedLocales: const [Locale('en', 'US'), Locale('hr', 'HR')],
     );
   }
 }
