@@ -25,8 +25,12 @@ final router = GoRouter(
           path: 'details',
           name: pageDetails,
           builder: (context, state) {
-            final item = state.extra as PokeListItem;
-            return PokeDetailPage(item: item);
+            final tag = state.uri.queryParameters[listPageTagParam] ?? '';
+            final item =
+                state.extra is PokeListItem
+                    ? state.extra as PokeListItem
+                    : null;
+            return PokeDetailPage(tag: tag, item: item);
           },
         ),
       ],
@@ -40,3 +44,5 @@ const pageDetails = 'pageDetails';
 
 const homePageQueryParam = 'query';
 const homePageTagParam = 'tag';
+
+const listPageTagParam = 'tag';

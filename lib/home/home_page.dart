@@ -27,7 +27,7 @@ class HomePage extends StatelessWidget {
             (previous, current) =>
                 previous.query != current.query && current.query.length > 3,
         listener: (context, state) {
-          context.goNamed(
+          context.pushNamed(
             pageList,
             queryParameters: {
               homePageQueryParam: state.query,

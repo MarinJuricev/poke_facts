@@ -29,9 +29,16 @@ class PokeListPage extends StatelessWidget {
                 previous.navigationItem != current.navigationItem &&
                 current.navigationItem != null,
         listener: (context, state) {
-          context.goNamed(pageDetails, extra: state.navigationItem);
-          // Optionally, clear the navigation signal:
-          // context.read<PokeListBloc>().add(const ClearNavigationItem());
+          final tagParam =
+              state.navigationItem?.id != null
+                  ? 'poke-id-${state.navigationItem!.id}'
+                  : null;
+
+          context.pushNamed(
+            pageDetails,
+            extra: state.navigationItem,
+            queryParameters: {listPageTagParam: tagParam},
+          );
         },
         child: PokeListContent(tag: tag, query: query),
       ),
@@ -137,7 +144,10 @@ class _PokeListItemWidget extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    PokeImage(url: item.url),
+                    Hero(
+                      tag: 'poke-id-${item.id}',
+                      child: PokeImage(url: item.url),
+                    ),
                     const SizedBox(width: 16),
                     Expanded(
                       child: Column(
