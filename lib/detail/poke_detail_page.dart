@@ -10,17 +10,21 @@ class PokeDetailPage extends StatelessWidget {
   const PokeDetailPage({super.key, required this.item, required this.tag});
 
   Widget _buildBody(BuildContext context) {
-    if (item == null) {
+    final currentItem = item;
+
+    if (currentItem == null) {
       return const PokeEmptyMessage(message: "No details available");
     }
-
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Hero(tag: tag, child: PokeImage(url: item?.url ?? '')),
+          Hero(tag: tag, child: PokeImage(url: currentItem.url)),
           const SizedBox(height: 16),
-          Text(item!.text, style: Theme.of(context).textTheme.headlineMedium),
+          Text(
+            currentItem.text,
+            style: Theme.of(context).textTheme.headlineMedium,
+          ),
         ],
       ),
     );
