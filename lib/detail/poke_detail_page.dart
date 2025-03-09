@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:poke_facts/components/poke_empty_message.dart';
 import 'package:poke_facts/components/poke_image.dart';
+import 'package:poke_facts/core/ext/string_ext.dart';
 import 'package:poke_facts/list/bloc/poke_list_state.dart';
 
 class PokeDetailPage extends StatelessWidget {
@@ -11,10 +12,7 @@ class PokeDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(item?.text ?? "Details")),
-      body: _buildBody(context),
-    );
+    return Scaffold(appBar: AppBar(), body: _buildBody(context));
   }
 
   Widget _buildBody(BuildContext context) {
@@ -25,9 +23,27 @@ class PokeDetailPage extends StatelessWidget {
     }
     return Center(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Hero(tag: tag, child: PokeImage(url: currentItem.url)),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  currentItem.text.capitalize(),
+                  style: Theme.of(context).textTheme.headlineLarge,
+                ),
+                Text(
+                  '#${currentItem.id}',
+                  style: Theme.of(context).textTheme.headlineSmall,
+                ),
+              ],
+            ),
+          ),
+          Hero(
+            tag: tag,
+            child: PokeImage(url: currentItem.url, width: 256, height: 256),
+          ),
           const SizedBox(height: 16),
           Text(
             currentItem.text,
