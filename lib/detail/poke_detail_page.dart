@@ -9,6 +9,14 @@ class PokeDetailPage extends StatelessWidget {
 
   const PokeDetailPage({super.key, required this.item, required this.tag});
 
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text(item?.text ?? "Details")),
+      body: _buildBody(context),
+    );
+  }
+
   Widget _buildBody(BuildContext context) {
     final currentItem = item;
 
@@ -27,14 +35,6 @@ class PokeDetailPage extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(item?.text ?? "Details")),
-      body: _buildBody(context),
     );
   }
 }
